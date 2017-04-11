@@ -1,0 +1,1 @@
+/var/www/html/app/code/Sebwite/Sidebar/view/frontend/web/js/module.js

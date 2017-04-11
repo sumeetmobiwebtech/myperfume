@@ -1,0 +1,1 @@
+/var/www/html/app/code/Custom/Collection/view/frontend/web/js/slick.js

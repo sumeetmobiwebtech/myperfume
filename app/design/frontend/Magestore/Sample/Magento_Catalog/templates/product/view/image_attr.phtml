@@ -1,0 +1,34 @@
+<?php
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_product = $block->getProduct();
+$_discount = $block->getAtCode();
+$_discount_type = $block->getDtypeCode();
+$_attributeLabel = $block->getAtLabel();
+
+ $attr_val =$_product->getResource()->getAttribute('brand')->getFrontend()->getValue($_product);//brand attribute value
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //getting object Manager
+if($attr_val != '' AND  $attr_val !='No')
+{
+	 $_ob = $objectManager->get('Magento\Catalog\Model\Product')->load($_product->getID());//loading product object
+	 $attr = $_ob->getResource()->getAttribute('brand');
+	 if ($attr->usesSource()) 
+	 {
+	    $option_id = $attr->getSource()->getOptionId($attr_val);//attribute option id
+	 }
+	 if(!empty($option_id))
+ 	{
+ 		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');//resource model
+ 		$connection = $resource->getConnection(); //getting connection
+		$tableName = $resource->getTableName('eav_attribute_option_swatch'); //table name
+		$sql = "Select value FROM ".$tableName." WHERE option_id =".$option_id; //selecting data
+		$result = $connection->fetchAll($sql); //getting data
+ 		$imgname = $result[0]['value']; 
+ 		$storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface'); //path object
+ 		$folderName = 'attribute/swatch';
+ 		$path = $folderName . $imgname;
+ 		 $image_src =  $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).$path;//creating fulll path
+ 		 echo "<img src='".$image_src."' width='206' height='124'/>";
+ 	}
+}
+
+ ?>

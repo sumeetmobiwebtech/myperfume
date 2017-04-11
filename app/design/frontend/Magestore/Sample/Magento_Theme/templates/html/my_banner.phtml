@@ -1,0 +1,142 @@
+<?php 
+$categoryIdtest = $this->getCategoryId();
+$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+ 
+$appState = $objectManager->get('\Magento\Framework\App\State');
+//$appState->setAreaCode('frontend');
+ 
+$categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory');
+$categoryHelper = $objectManager->get('\Magento\Catalog\Helper\Category');
+$categoryRepository = $objectManager->get('\Magento\Catalog\Model\CategoryRepository');
+ 
+$categoryId = $categoryIdtest; // YOUR CATEGORY ID
+
+
+$category1 = $objectManager->create('Magento\Catalog\Model\Category')
+->load($categoryId);
+
+
+
+
+
+$category = $categoryFactory->create()->load($categoryId);
+ 
+$categoryProducts = $category->getProductCollection()
+                             ->addAttributeToSelect('*');
+?>
+<section class="product_sec seller_sec">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="product_head">
+                <h4><?php echo $category1->getName(); ?></h4>
+              </div>
+              <div class="product_slider">
+              
+<?php                      
+foreach ($categoryProducts as $product) {
+?>
+      <div class="product_slide">
+                  <div class="productslide_img">
+                    <img src="<?php echo $block->getUrl('pub/media/catalog').'product'.$product->getImage(); ?>" class="img-responsive" alt="">
+                    <div class="productslide_hover">
+                      <ul>
+                        <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+                            <?php 
+                            $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+                            $addToCartUrl =  $listBlock->getAddToCartUrl($product);
+                            ?>
+                            <form data-role="tocart-form" action="<?php echo $addToCartUrl; ?>" method="post">
+                                <?php echo $block->getBlockHtml('formkey')?>
+                                   <button type="submit"
+                                           title="Add to Cart"
+                                           class="action tocart primary">
+                                           <span>Add to Cart</span>
+                                    </button>
+                             </form>
+                            </a>
+                        </li>
+                        <li>
+                        <a href="#"
+                           class="action towishlist"
+                           title="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+                           aria-label="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+                           data-post='<?php /* @escapeNotVerified */ echo $block->getAddToWishlist($product); ?>'
+                           data-action="add-to-wishlist"
+                           role="button">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        </a>
+                        </li>
+
+                        <li>
+                        <a href="#"
+                           class="action tocompare"
+                           title="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+                           aria-label="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+                           data-post='<?php echo $block->getAddToCompare($product);?>'
+                           role="button">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="productslide_cnt">
+                  <h5>Brand Name</h5>
+                    <p> <a title="<?php echo $block->escapeHtml($product->getName()) ?>"
+                                       href="<?php /* @escapeNotVerified */ echo $product->getProductUrl() ?>"
+                                       class="product-item-link">
+                                        <?php echo $block->escapeHtml($product->getName()) ?>
+                                    </a></p>
+                    <span class="product_price"><?php echo $product->getFinalPrice() ?></span>
+                  </div>
+                </div>
+                
+         
+<?php } ?>
+
+   </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+<script type="text/javascript">
+
+/*  $(document).ready(function() {
+    alert("inside");
+  $(".product_slider").slick({
+  dots: false,
+  infinite: true,
+  centerMode: true,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  autoplay:false,
+  arrows:true,
+  })
+});*/
+
+/*  require([
+        'jquery',
+        'slick'
+    ], function($) {
+        jQuery(document).ready(function() {
+          alert("done");
+            
+        });
+    });*/
+
+    require(['jquery', 'slick'], function(jQuery){ 
+    //alert("ioioi");
+      jQuery(".product_slider").slick({
+      dots: false,
+      infinite: true,
+      centerMode: true,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      autoplay:false,
+      arrows:true,
+      });
+     
+ });
+</script>

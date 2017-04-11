@@ -1,0 +1,75 @@
+<?php
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_product = $block->getProduct();
+$_discount = $block->getAtCode();
+$_discount_type = $block->getDtypeCode();
+$_attributeLabel = $block->getAtLabel();
+
+ $attr_val =$_product->getResource()->getAttribute('brand')->getFrontend()->getValue($_product);//brand attribute value
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //getting object Manager
+/*if($attr_val != '' AND  $attr_val !='No')
+{
+	 $_ob = $objectManager->get('Magento\Catalog\Model\Product')->load($_product->getID());//loading product object
+	 $attr = $_ob->getResource()->getAttribute('new_brand');
+	 if ($attr->usesSource()) 
+	 {
+	    $option_id = $attr->getSource()->getOptionId($attr_val);//attribute option id
+	 }
+	 if(!empty($option_id))
+ 	{
+ 		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');//resource model
+ 		$connection = $resource->getConnection(); //getting connection
+		$tableName = $resource->getTableName('eav_attribute_option_swatch'); //table name
+		$sql = "Select value FROM ".$tableName." WHERE option_id =".$option_id; //selecting data
+		$result = $connection->fetchAll($sql); //getting data
+ 		$imgname = $result[0]['value']; 
+ 		$storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface'); //path object
+ 		$folderName = 'attribute/swatch';
+ 		$path = $folderName . $imgname;
+ 		 $image_src =  $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).$path;//creating fulll path
+ 		 echo $attr_val."<img src='".$image_src."' width='200' height='200'/>";
+ 	}
+}
+*/
+ ?>
+<?php
+ $_discount_val =$_product->getResource()->getAttribute($_discount)->getFrontend()->getValue($_product);
+ $discountType =$_product->getResource()->getAttribute($_discount_type)->getFrontend()->getValue($_product);
+?>
+<div>
+<!--setting conditions-->
+<?php 
+ $finalPrice = $_product->getFinalPrice();
+if($discountType == 'Fixed')
+	{
+	    if($_discount_val < $finalPrice && $_discount_val > 0)
+	    {
+	        echo "Discount-"."$".$_discount_val."<br>";
+	        echo $priceAfterDiscount = $finalPrice - $_discount_val;
+	        $_product->setPrice($priceAfterDiscount);
+	    }
+	    else
+	    {
+	        echo $finalPrice;
+	    }
+	}
+	else if($discountType == 'Percentage')
+	{
+	    if($_discount_val < 100 && $_discount_val > 0)
+	    {
+	         echo "Discount -". $_discount_val."%"."<br>";
+	         $discountVal = ($finalPrice * $_discount_val)/100;
+	         $priceAfterDiscount = $finalPrice - $discountVal;
+	         echo $priceAfterDiscount;
+	         $_product->setPrice($priceAfterDiscount);
+	    }
+	    else
+	    {
+	        echo $finalPrice;
+	    }
+	}
+
+?>
+<!--*setting conditions*-->
+
+</div>

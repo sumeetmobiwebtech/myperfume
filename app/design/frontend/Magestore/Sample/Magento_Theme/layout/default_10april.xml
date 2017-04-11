@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<body>
+
+<referenceContainer name="header.container">
+        	<container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="account_bar" >
+        	</container>
+
+          <container name="topheader.container" as="topContainer" label="Top Header Container" htmlTag="div" htmlClass="top_header" before="-">
+                <block class="Magento\Framework\View\Element\Template" name="testing" template="Magento_Theme::html/customtopheader/topheader.phtml"  cacheable="false"/>
+          </container>
+
+        <container name="midheader" as="midContainer" label="Middle Header" htmlTag="div" htmlClass="middle_header">
+        	 <container name="midheader.container" as="midContainer" label="Middle Header Container" htmlTag="div" htmlClass="container">
+        	     <container name="midheader.row" as="midContainer" label="Top Header row" htmlTag="div" htmlClass="row">
+                  <container name="header-wrapper" label="Page Header" as="header-wrapper" htmlTag="div" htmlClass="col-sm-12"> 
+                       <block class="Magento\Theme\Block\Html\Header\Logo" name="logo">
+                        <arguments>
+            	             <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                        </arguments>
+                      </block>
+            </container>  
+          </container> 
+           </container>  
+          </container> 
+</referenceContainer>
+
+<move element="header.panel" destination="header-wrapper" />
+      <move element="minicart" destination="header.panel" /> 
+      <referenceBlock name="register-link" remove="true"/>
+      <referenceBlock name="skip_to_content" remove="true"/>
+      <!-- <move element="header.panel" destination="header.container" /> -->
+        <referenceBlock name="top.links">
+            <arguments>
+            	<argument name="css_class" xsi:type="string"></argument>
+            </arguments>
+        </referenceBlock>
+
+
+<referenceBlock name="report.bugs" remove="true" />
+<referenceBlock name="copyright" remove="true"/>
+<referenceBlock name="footer_links" remove="true"/>
+
+<referenceBlock name="form.subscribe" remove="true"/>
+
+<referenceContainer name="footer">
+       <block class="Magento\Framework\View\Element\Template" name="custom_footer" as="custom_footer1" after="-" template="Magento_Theme::html/custom_footer.phtml"/>
+
+       <block class="Magento\Newsletter\Block\Subscribe" name="form.subscribe1" as="subscribe1" after="-" template="Magento_Newsletter::subscribe.phtml"/>
+
+      <block class="Magento\Framework\View\Element\Template" name="custom_bottom_footer" as="custom_bottom_footer" template="Magento_Theme::html/custom_bottom_footer.phtml" after="form.subscribe1"/>
+      <block class="Magento\Framework\View\Element\Template" name="custom_footer_yellow" as="custom_footer_yellow" before="custom_bottom_footer" template="Magento_Theme::html/custom_footer_yellow.phtml"/>
+       <block class="Magento\Framework\View\Element\Template" name="custom_copyright" as="custom_copyright" after="custom_bottom_footer" template="Magento_Theme::html/custom_copyright.phtml"/>
+</referenceContainer>
+
+
+<referenceContainer name="main">
+            <container name="cat.content"  label="Container" htmlTag="div" htmlClass="container" before="-">
+            <container name="cat.row" label="Page Header Panel" htmlTag="div" 
+                  htmlClass="row">
+            <container name="cat.row4" label="Page Header Panel" htmlTag="div"
+                  htmlClass="col-sm-4">
+            <container name="list_filter" label="Page Header Panel" htmlTag="div" 
+                  htmlClass="list_filter">
+          </container>
+         </container>
+         </container>
+       </container>
+      </referenceContainer> 
+
+    <referenceContainer name="sidebar.additional">
+
+     <block class="Magento\Framework\View\Element\Template" name="recently_viewed_product" as="recently_viewed_product" template="Magento_Theme::recently_viewed_product.phtml"/> 
+
+      <block class="Sebwite\Sidebar\Block\Sidebar" name="category-sidebar" template="Sebwite_Sidebar::sidebar.phtml" before="recently_viewed_product" />
+
+     <block class="Magento\Newsletter\Block\Subscribe" name="sidebar.subscribe" as="sidebarsubscribe" after="recently_viewed_product" template="Magento_Newsletter::sidebar_newsletter.phtml"/> 
+
+      
+
+    </referenceContainer>
+
+
+    <move element="sidebar.additional" destination="list_filter" />
+    <move element="category.products.list" destination="cat.row" />
+    <referenceBlock name="category.view.container" remove="true"/>
+    <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+    <move element="catalog.leftnav" destination="list_filter" />
+
+</body>
+</page>

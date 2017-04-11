@@ -1,0 +1,12 @@
+<?php 
+$categoryIdmain = $block->getCurrentCategory(); 
+$categoryId = $categoryIdmain->getId();
+$category = $block->getCategory($categoryId);
+
+$childrenCategories = $category->getChildrenCategories();
+foreach ($childrenCategories as $children) {
+	 echo '<a href='.$children->getUrl().'>'.$children->getName().'</a>';
+    echo ' ( ' . $children->getProductCount() . ' )';
+    
+}
+?>

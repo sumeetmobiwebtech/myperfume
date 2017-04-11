@@ -1,0 +1,48 @@
+<footer id="footer" class="footer_sec">
+      <div class="footer_top">
+         <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="footer_borderbox">
+
+                <div class="footer_topbox">
+                  <?php 
+                  echo $this->getLayout()
+                  ->createBlock('Magento\Cms\Block\Block')
+                  ->setBlockId('footer_logo')
+                  ->toHtml();
+                  ?>
+                </div>
+
+                <div class="footer_topbox">
+                  <?php 
+                  echo $this->getLayout()
+                  ->createBlock('Magento\Cms\Block\Block')
+                  ->setBlockId('footer_middle1')
+                  ->toHtml();
+                  ?>
+                </div>
+                
+                <div class="footer_topbox">
+                  <?php 
+                  echo $this->getLayout()
+                  ->createBlock('Magento\Cms\Block\Block')
+                  ->setBlockId('footer_middle2')
+                  ->toHtml();
+                  ?>
+                </div>
+                
+                <div class="footer_topbox customer_service">
+                  <?php 
+                  echo $this->getLayout()
+                  ->createBlock('Magento\Cms\Block\Block')
+                  ->setBlockId('footer_last')
+                  ->toHtml();
+                  ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </footer>

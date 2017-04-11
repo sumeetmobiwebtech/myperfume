@@ -1,0 +1,149 @@
+<?php
+if ($exist = ($this->getBestsellerProduct() && $this->getBestsellerProduct()->getPageSize())) {
+$fet_prodcollection = $this->getBestsellerProduct();
+$productcount = $this->getProductLimit();
+//$imagewidth = $this->getProductimagewidth();
+//$imageheight = $this->getProductimageheight();
+ $mode = 'grid';
+  $title = __('Bestseller Products');
+ $type = 'widget-bestseller-grid';
+ $image = 'bestseller_products_content_widget_grid';
+}
+?>
+
+
+<?php if ($exist):?>
+<section class="product_sec featured_sec">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="product_head">
+                <h4><?php /* @escapeNotVerified */ echo $title; ?></h4>
+              </div>
+              <div class="product_slider">
+              <?php foreach ($fet_prodcollection as $item):     
+    
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$_product = $objectManager->create('Magento\Catalog\Model\Product')->load($item->getProductId());
+    ?>
+                <div class="product_slide">
+                  <div class="productslide_img">
+<?php $image_url = $block->imageHelperObj()->init($_product, 'product_page_image_small')
+                        ->setImageFile($_product->getFile())
+                        ->getUrl();
+                         ?>
+                    <img src="<?php echo $block->getUrl('pub/media/catalog').'product'.$_product->getImage(); ?>" class="img-responsive" alt="<?php echo $this->escapeHtml($_product->getName()) ?>">
+                    <div class="productslide_hover">
+                      <ul>
+                        <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+                              <?php 
+                            $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+                            $addToCartUrl =  $listBlock->getAddToCartUrl($_product);
+                            ?>
+                            <form data-role="tocart-form" action="<?php echo $addToCartUrl; ?>" method="post">
+                                <?php echo $block->getBlockHtml('formkey')?>
+                                   <button type="submit"
+                                           title="Add to Cart"
+                                           class="action tocart primary">
+                                           <span>Add to Cart</span>
+                                    </button>
+                             </form>
+                            </a>
+                        </li>
+
+                        <li>
+                        <a href="#"
+                           class="action towishlist"
+                           title="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+                           aria-label="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+                           data-post='<?php /* @escapeNotVerified */ echo $block->getAddToWishlist($_product); ?>'
+                           data-action="add-to-wishlist"
+                           role="button">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        </a>
+                        </li>
+
+                        <li>
+                        <a href="#"
+                           class="action tocompare"
+                           title="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+                           aria-label="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+                           data-post='<?php echo $block->getAddToCompare($_product);?>'
+                           role="button">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                 <div class="productslide_cnt">
+                    <h5>Brand Name</h5>
+
+                    <p><a title="<?php echo $block->escapeHtml($_product->getName()) ?>"
+                                       href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl(); ?>"
+                                       class="product-item-link">
+                                        <?php echo $block->escapeHtml($_product->getName()) ?>
+                                    </a></p>
+
+                    <span class="product_price"> <?php
+                        //echo $this->getProductPriceHtml($_product, $type); ?>
+                    </span>
+                     <!--custom code-->
+                        <?php 
+                         $finalPrice = $_product->getPriceInfo()->getPrice('final_price')->getValue();//getting_final_price
+                        //$finalPrice = $_product->getFinalPrice();//getting_final_price
+                         $discountType = $_product->getResource()->getAttribute('discount_type')->getFrontend()->getValue($_product);//getting discount type
+                         $discountAmount = $_product->getResource()->getAttribute('discount')->getFrontend()->getValue($_product); //getting discount amount
+                         //echo $_product->getID();
+                        if($discountType == 'Fixed')
+                        {
+                            if(($discountAmount < $finalPrice) && ($discountAmount > 0))
+                            {
+                              ?>
+                              <div class="offer_box"><?php echo $discountAmount."<br>"; ?></div>
+                              <?php
+                                
+                                echo $priceAfterDiscount = $finalPrice - $discountAmount;
+                            }
+                            else
+                            {
+                                echo $finalPrice;
+                            }
+                        }
+                        else if($discountType == 'Percentage')
+                        {
+                             //$discountPercentage = $_product->getResource()->getAttribute('discount')->getFrontend()->getValue($_product);
+                            if(($discountAmount < 100)  &&  ($discountAmount > 0))
+                            {
+                              ?>
+                              <div class="offer_box">
+                                 <?php echo  $discountAmount."%"."<br>"; ?>
+                                 </div>
+                                 <?php
+                                 $discountVal = ($finalPrice * $discountAmount)/100;
+                                 $priceAfterDiscount = $finalPrice - $discountVal;
+                                 //echo $_product->getId();
+                                 //echo $finalPrice;
+                                 echo $priceAfterDiscount;
+                                 
+                            }
+                            else
+                            {
+                                echo $finalPrice;
+                            }
+                        }
+                        else
+                        {
+                                 echo $this->getProductPriceHtml($_product, $type);  //product real price if discount not present
+                        }
+                        ?>
+                        <!--custom code-->                       
+                  </div>
+                </div>
+ <?php endforeach ?>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  <?php endif;?>

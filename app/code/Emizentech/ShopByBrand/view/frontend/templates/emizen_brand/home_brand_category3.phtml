@@ -1,0 +1,43 @@
+<?php 
+$brands = $this->getBrands();
+?>
+	<h4>H - M</h4>
+	<ul>
+<?php  
+$count = 1;
+$class = "more-readed";
+foreach (range('H', 'M') as $char) :?>
+	<?php if(isset($brands[$char])):?>
+			<?php foreach($brands[$char] as $_brand):?>
+				<li class="<?php if($count>1){echo $class;}?>">
+					<?php if($_brand->getUrlKey()):?>
+						<a href="<?php echo $this->getUrl('brand').$_brand->getUrlKey()?>"><?php echo $_brand->getName();?></a>
+					<?php else:?>
+						<a href="<?php echo $this->getUrl('brand/view/',array('id'=>$_brand->getId()));?>"><?php echo $_brand->getName();?></a>
+					<?php endif;?>
+				</li>
+				<?php $count++; ?>
+			<?php endforeach;?>
+	<?php endif;?>
+<?php endforeach;?>
+</ul>
+<div class="read-more-trigger1">
+    <input type="checkbox" class="read-more-state" id="post-6" />
+    <label for="post-6" class="read-more-trigger m-readss"></label>
+</div>
+
+<script type="text/javascript">
+	require(['jquery'],function($){
+		  $(".more-readed").hide();
+	      $(document).ready(function(){
+            $('.m-readss').click( function(){
+            	if($(".more-readed").is(":visible")){
+			  	   $(".more-readed").hide();
+			  	}else{
+                   $(".more-readed").show();
+			  	}
+	      });
+	
+	});
+});
+</script>

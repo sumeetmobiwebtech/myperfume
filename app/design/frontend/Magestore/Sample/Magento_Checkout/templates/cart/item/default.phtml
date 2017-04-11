@@ -1,0 +1,150 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Checkout\Block\Cart\Item\Renderer */
+
+$_item = $block->getItem();
+$product = $_item->getProduct();
+$isVisibleProduct = $product->isVisibleInSiteVisibility();
+/** @var \Magento\Msrp\Helper\Data $helper */
+$helper = $this->helper('Magento\Msrp\Helper\Data');
+$canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
+?>
+<tbody>
+    <tr>
+        <td>
+            <?php if ($block->hasProductUrl()):?>
+               <div class="cart_img"> 
+                <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl() ?>"
+                   title="<?php echo $block->escapeHtml($block->getProductName()) ?>"
+                   tabindex="-1">
+                    <?php else:?>
+                    <?php endif;?>
+                    <?php echo $block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
+                    <?php if ($block->hasProductUrl()):?>
+                </a>
+               </div>   
+            <?php else: ?>
+            <?php endif; ?>
+            <div class="cart_info">
+              <div class="left_ptw">
+                    <?php if ($block->hasProductUrl()):?>
+                        <h3>
+                        <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl() ?>">
+                        <?php echo $block->escapeHtml($block->getProductName()) ?>
+                        </a>
+                        </h3>
+                    <?php else: ?>
+                        <h3>
+                        <?php echo $block->escapeHtml($block->getProductName()) ?>
+                        </h3>
+                    <?php endif; ?>
+                <?php if ($_options = $block->getOptionList()):?>
+                        <?php foreach ($_options as $_option) : ?>
+                            <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                            <span class="size_pro"><?php echo $block->escapeHtml($_option['label']) ?></span>
+                            <span class="volume_quan">
+                                <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                                    <?php /* @escapeNotVerified */ echo $_formatedOptionValue['full_view'] ?>
+                                <?php else: ?>
+                                    <?php /* @escapeNotVerified */ echo $_formatedOptionValue['value'] ?>
+                                <?php endif; ?>
+                            </span>
+                        <?php endforeach; ?>
+                <?php endif;?>
+                <?php if ($messages = $block->getMessages()): ?>
+                    <?php foreach ($messages as $message): ?>
+                        <div class="cart item message <?php /* @escapeNotVerified */ echo $message['type'] ?>"><div><?php echo $block->escapeHtml($message['text']) ?></div></div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+                <?php if ($addInfoBlock): ?>
+                    <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
+                <?php endif;?>
+            </div>
+           </div> 
+        </td>
+        <td>
+            <div class="quantity">
+                <div class="qty" data-role="controlgroup" data-type="horizontal" data-mini="true">
+                <button class="plus-<?php echo $_item->getId(); ?>" id="plus" data-inline="true"><i class="fa fa-plus"></i></button>
+                    <input id="number"
+                           name="cart[<?php /* @escapeNotVerified */ echo $_item->getId() ?>][qty]"
+                           data-cart-item-id="<?php /* @escapeNotVerified */ echo $_item->getSku() ?>"
+                           value="<?php /* @escapeNotVerified */ echo $block->getQty() ?>"
+                           type="number"
+                           size="4"
+                           title="<?php echo $block->escapeHtml(__('Qty')); ?>"
+                           class="input-text qty form-control number qty-<?php echo $_item->getId(); ?>"
+                           maxlength="12"
+                           data-validate="{required:true,'validate-greater-than-zero':true}"
+                           data-role="cart-item-qty" readonly/>
+                <button class="minus-<?php echo $_item->getId(); ?>" id="minus" data-inline="true"><i class="fa fa-minus"></i>
+                </button>          
+                </div>
+            </div>
+        </td>
+        <?php if ($canApplyMsrp): ?>
+            <td class="col msrp" data-th="<?php echo $block->escapeHtml(__('Price')); ?>">
+                <span class="pricing msrp">
+                    <span class="msrp notice"><?php /* @escapeNotVerified */ echo __('See price before order confirmation.'); ?></span>
+                    <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
+                    <a href="#" class="action help map" id="<?php /* @escapeNotVerified */ echo($helpLinkId); ?>" data-mage-init='{"addToCart":{"helpLinkId": "#<?php /* @escapeNotVerified */ echo $helpLinkId;?>","productName": "<?php /* @escapeNotVerified */ echo $product->getName(); ?>","showAddToCart": false}}'>
+                        <span><?php /* @escapeNotVerified */ echo __("What's this?"); ?></span>
+                    </a>
+                </span>
+            </td>
+        <?php else: ?>
+            <td>
+                <?php //echo $block->getUnitPriceHtml($_item); ?>
+                <?php echo $block->getRowTotalHtml($_item); ?>
+            </td>
+        <?php endif; ?>
+        <!--td class="col subtotal" data-th="<?php //echo $block->escapeHtml(__('Subtotal'));?>">
+            <?php //if ($canApplyMsrp): ?>
+                <span class="cart msrp subtotal"></span>
+            <?php //else: ?>
+                <?php //echo $block->getRowTotalHtml($_item); ?>
+            <?php //endif; ?>
+        </td-->
+        <td>
+            <div class="actions-toolbar">
+                <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
+            </div>
+        </td>
+    </tr>
+    <!--tr>
+        <td colspan="100">
+            <div class="actions-toolbar">
+                <?php /* @escapeNotVerified */ //echo $block->getActions($_item) ?>
+            </div>
+        </td>
+    </tr-->
+</tbody>
+
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){ 
+        var currentValue;
+        var qty = "qty-<?php echo $_item->getId(); ?>";
+        var plus = "plus-<?php echo $_item->getId();?>";
+        var minus = "minus-<?php echo $_item->getId(); ?>";
+          $('.'+plus).click(function(evt) {
+            val = $('.'+qty).val();
+            total = parseInt(val) + 1;
+            $('.'+qty).val(total);
+          });
+          $('.'+minus).click(function(evt) {
+            currentValue = $('.'+qty).val();
+            if (parseInt(currentValue) > 1) {
+                val = $('.'+qty).val();
+                total = parseInt(val) - 1;
+                $('.'+qty).val(total);
+            }
+          });
+    });
+</script>

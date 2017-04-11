@@ -1,0 +1,53 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div class="footer_middle">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="social_bar">
+                <ul>
+                  <li><a href="#"><i class="fa fa-facebook"></i></a> </li>
+                  <li><a href="#"><i class="fa fa-twitter"></i></a> </li>
+                  <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+                  <li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a> </li>
+                  <li><a href="#"><i class="fa fa-linkedin"></i></a> </li>
+                  <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm-6 text-right">
+              <div class="footer_search">
+                <h5>NEWSLETTER</h5>
+                <form class="form subscribe"
+            novalidate
+            action="<?php /* @escapeNotVerified */ echo $block->getFormActionUrl() ?>"
+            method="post"
+            data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+            id="newsletter-validate-detail">
+            <div class="field newsletter">
+                <!-- <label class="label" for="newsletter"><span><?php /* @escapeNotVerified */ //echo __('Sign Up for Our Newsletter:') ?></span></label> -->
+                <div class="control">
+                    <input name="email" type="email" id="newsletter"
+                                placeholder="<?php /* @escapeNotVerified */ echo __('Enter your email address') ?>"
+                                data-validate="{required:true, 'validate-email':true}"/>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="action btn btn_subcr" title="<?php /* @escapeNotVerified */ echo __('Subscribe') ?>" type="submit">
+                    <span><?php /* @escapeNotVerified */ echo __('Subscribe') ?></span>
+                </button>
+            </div>
+        </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+

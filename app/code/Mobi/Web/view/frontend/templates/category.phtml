@@ -1,0 +1,23 @@
+<?php 
+$categoryIdmain = $block->getCurrentCategory(); 
+if ($categoryId = $categoryIdmain->getId()) {
+
+$category = $block->getCategory($categoryId); ?>
+<div class="filter_head">
+    <h4>Shop by Category</h4>
+</div>
+    <ul>                      
+	<?php
+	$childrenCategories = $category->getChildrenCategories();
+	foreach ($childrenCategories as $children) {
+		?>
+		 <li> <?php echo '<a href='.$children->getUrl().'>'.$children->getName();?><span>
+		 <?php echo  $children->getProductCount() ?></span></a></li>
+	  <?php 
+	}
+	?>
+   </ul>
+   <?php
+}
+?>
+

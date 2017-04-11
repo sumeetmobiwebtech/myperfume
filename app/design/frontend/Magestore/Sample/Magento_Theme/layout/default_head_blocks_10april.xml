@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../vendor/magento/framework/Module/etc/module.xsd">
+  <head> 
+    <css src="css/custom_red.css" />
+    <css src="css/custom.css" media="screen and (min-width: 768px)"/>
+    <!-- <css src="css/mycustom.css" /> -->
+    <css src="css/bootstrap.min.css" />
+    <css src="css/plugin.css" />
+    <css src="css/font-awesome.min.css" />
+    <css src="css/slick.css" />
+    <css src="css/slick-theme.css" />
+    <css src="css/responsive.css" />
+    <css src="css/custom.css"/>
+    <script src="js/bootstrap.min.js"/>
+    <script src="js/plugin.js"/>
+    <script src="js/modernizr-custom.js"/>
+    <script src="js/custom.js"/>
+    <remove src="css/print.css" />
+  </head>
+</page>

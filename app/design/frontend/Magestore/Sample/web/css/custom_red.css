@@ -1,0 +1,119 @@
+@charset "utf-8";
+/* CSS Document */
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-shadow: rgba(255,255,255,0.01) 0 0 1px;
+  -webkit-text-stroke: rgba(255,255,255,0.01) 0.1px;
+  
+  -moz-text-size-adjust: 100%;
+  -moz-font-smoothing: antialiased;
+  -moz-text-shadow: rgba(255,255,255,0.01) 0 0 1px;
+  -moz-text-stroke: rgba(255,255,255,0.01) 0.1px;
+  
+  text-size-adjust: 100%;
+  font-smoothing: antialiased;
+  text-shadow: rgba(255,255,255,0.01) 0 0 1px;
+  text-stroke: rgba(255,255,255,0.01) 0.1px;
+}
+
+.block-title
+{
+  padding: 10px 0 0;
+  position: relative;
+  text-align: center;
+}
+.productslide_cnt a{
+    color: #000000;
+  }
+
+.list_product span.price
+{
+    color: #966615;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 20px;
+    padding-right: 2px;
+}
+
+.catalog-category-view .list_filter .items span
+{
+  float: none;
+}
+
+.product.data.items > .item.title.active > .switch, .product.data.items > .item.title.active > .switch:focus, .product.data.items > .item.title.active > .switch:hover
+{
+    background-color: #cc9933 !important;
+    color: #555 !important;
+    cursor: default;
+    border: 1px solid #cc9933 !important;
+    border-bottom-color: transparent;
+}
+
+.product.data.items > .item.title > .switch
+{
+  height: 41px !important;;
+}
+
+.product.data.items > .item.content
+{
+  margin-top: 41px !important;
+  border: 1px solid #ddd !important;
+  padding: 15px;
+}
+
+.nav-tabs
+{
+  border-bottom: 0!important;
+}
+.label
+{
+  color: #000 !important;
+}
+.additional-attributes tr
+{
+    border-bottom: 1px solid #d9d9d9;
+    padding: 8px 0;
+    font-size: 12px;
+}
+.additional-attributes tr th.col.label
+  {
+    font-weight: 600;
+    min-width: 260px;
+    margin: 0px;
+    font-size: 12px;
+  }
+
+  .additional-attributes tr:last-child {
+    border-bottom: none;
+}
+
+.catalog-product-view .product_details_wrap .product.attribute.overview
+{
+  display: none;
+}
+
+.page-title-wrapper.product
+{
+  display: none;
+}
+
+.pir_left .actions button
+{
+    background: #cc9933;
+    border: none;
+    color: #fff;
+    padding: 12px;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 2px
+}
+
+.log_sec {
+    padding: 0!important;
+}
+
